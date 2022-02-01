@@ -15,7 +15,7 @@ COMMAND = {"title", "category", "command"}
 def create_package_json(extension) -> None:
     package = {
         "name": extension.name,
-        "displayName": extension.display_name,
+        "displayName": extension.displayName,
         "main": "./extension.js",
         "contributes": {
             "commands": [
@@ -94,7 +94,9 @@ def create_extension_js(extension):
     imports = imports.replace("<filepath>", file)
     commands_code = "function registerCommands(context) {\n\t"
     for cmd in extension.commands:
-        commands_code += REGISTER_COMMANDS_TEMPLATE.format(**cmd.dict())
+        commands_code += REGISTER_COMMANDS_TEMPLATE.format(
+            **cmd.dict(include={"command", "name"})
+        )
 
     commands_code += "\n}"
 
